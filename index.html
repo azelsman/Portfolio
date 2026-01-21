@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Allan Zelsman's Portfolio</title>
+  <title>Allan Zelsman | Human+AI Product Design</title>
   <link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/index.css" />
     <script src="local-scripts.js" defer></script>
@@ -15,48 +15,91 @@
 
     <!-- Main content section -->
     <section class="content" aria-label="Main Content">
-          <h1 class="sr-only">Allan Zelsman's Portfolio</h1>
-          <div class="hero">
-            <div class="hero-video-wrapper">
-            <iframe 
-                src="https://www.youtube.com/embed/Tv_CcgbZU_I?modestbranding=1&rel=0&showinfo=0" 
-                title="Allan Zelsman's Portfolio" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-            </iframe>
-            </div>
-        </div>
+          <section id="hero" class="content-container flex-row-wrap">
+            <div class="hero-text">
+              <h1 class="hero-title">Make complex product workflows feel obvious.</h1>
 
-        <div id="content-container">
-            <div class="tagline">
-                I design Human+AI product experiences and complex systems that turn messy workflows into clear, trustworthy journeys. Explore a few flagship projects below.
+              <p class="hero-subtitle">
+                Principal Product Designer / Experience Architect. I de-risk confusing flows, design-system drift, and AI-powered workflows so teams ship clearer experiences customers adopt.
+              </p>
+              <p class="hero-note">Complex workflows  |  Design systems | AI UX |  0→1 + modernization</p>
+              
+            <section id="hero-cta">
+
+
+
+            </section>
+            <p class="hero-kicker">Explore a few flagship projects below.</p>
             </div>
+            <div class="hero-image">
+              <a href="#" class="media-trigger" data-type="youtube" data-video="https://www.youtube.com/embed/Tv_CcgbZU_I?modestbranding=1&rel=0&showinfo=0" data-aspect="9:16" aria-label="Play video: POV: Your kid just asked for a unicorn for Christmas">
+            <img class="hero-image" src="img/welcome-thumb.jpg" alt="Thumbnail: chaotic holiday experience—unicorn wish gone wild" />
+          </a>
+            </div>
+            
+            <!-- <div class="hero">
+              <div class="hero-video-wrapper">
+              <iframe 
+                  src="https://www.youtube.com/embed/Tv_CcgbZU_I?modestbranding=1&rel=0&showinfo=0" 
+                  title="Allan Zelsman's Portfolio" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerpolicy="strict-origin-when-cross-origin" 
+                  allowfullscreen>
+              </iframe>
+              </div>
+            </div> -->
+          </section>
+          
+        <div id="content-container">
+          <h2 class="project-card-heading">Featured Projects</h2>
+            
             <div class="projects-grid">
               
 
-                <a class="no-underline" href="smc.html"><div class="project-card">
-                <div class="project-header">Santa's Magic Call</div>
-                <img class="project-image" src="img/smc-tile.png" alt="Santa's Magic Call" />
-                <div class="project-footer no-underline">Details →</div>
-                </div></a>
+                <a class="no-underline" href="smc.html">
+                  <div class="project-card">
+                    <div class="project-header">
+                      <span>Santa's Magic Call</span>
+                      <p class="card-subtitle white">Child-safe AI voice experience.</p>
+                    </div>
+                    <img class="project-image" src="img/smc-tile.png" alt="Santa's Magic Call" />
+                    <div class="project-footer no-underline">Designed a magical, voice-only flow with child-safe guardrails and redirects. <a href="smc.html">See more</a></div>
+                  </div>
+                </a>
                 
-                <a class="no-underline" href="afi.html"><div class="project-card">
-                <div class="project-header">American Family Insurance</div>
-                <img class="project-image" src="img/AFI-tile.png" alt="American Family Insurance" />
-                <div class="project-footer no-underline">Details →</div>
-                </div></a>
-                <a class="no-underline" href="cgi.html"><div class="project-card">
-                <div class="project-header">CGI Momentum</div>
-                <img class="project-image" src="img/CGI-tile.png" alt="CGI Momentum" />
-                <div class="project-footer no-underline">Details →</div>
-                </div></a>
-                <a class="no-underline" href="uspto.html"><div class="project-card">
-                <div class="project-header">USPTO</div>
-                <img class="project-image" src="img/AFI-tile.png" alt="USPTO" />
-                <div class="project-footer no-underline">Details →</div>
-                </div></a>
+                
+                <a class="no-underline" href="afi.html">
+                  <div class="project-card">
+                    <div class="project-header">
+                      <span>American Family Insurance</span>
+                      <p class="card-subtitle white">Self-serve sales flows, clarified.</p>
+                    </div>
+                    <img class="project-image" src="img/AFI-tile.png" alt="American Family Insurance" />
+                    <div class="project-footer no-underline">Unified fragmented sales flows to reduce confusion and improve self-service. <a href="afi.html">See more</a></div>
+                  </div>
+                </a>
+                <a class="no-underline" href="cgi.html">
+                  <div class="project-card">
+                    <div class="project-header">
+                      <span>CGI Momentum</span>
+                      <p class="card-subtitle white">Legacy workflows, modernized.</p>
+                    </div>
+                    <img class="project-image" src="img/CGI-tile.png" alt="CGI Momentum" />
+                    <div class="project-footer no-underline">Modernized a federal platform with clearer workflows and shared patterns.<a href="cgi.html">See more</a></div>
+                  </div>
+                </a>
+
+                <a class="no-underline" href="uspto.html">
+                  <div class="project-card">
+                    <div class="project-header">
+                      <span>USPTO</span>
+                      <p class="card-subtitle white">Secure access, simplified.</p>
+                    </div>
+                    <img class="project-image" src="img/USPTO-tile.png" alt="USPTO" />
+                    <div class="project-footer no-underline">Designed a unified sign-in experience with SSO + MFA and clearer next steps. <a href="uspto.html">See more</a></div>
+                  </div>
+                </a>
 
                 <!--<a class="no-underline" href="vocus.html"><div class="project-card">
                 <div class="project-header">Vocus Cloud</div>
@@ -103,7 +146,7 @@
     </section>
 
     <!-- Call to Action section -->
-    <section id="cta" class="cta" id="cta" aria-label="Call to Action">
+    <section id="cta" class="cta" aria-label="Call to Action">
     </section>
     <footer id="footer" role="contentinfo">
     </footer>

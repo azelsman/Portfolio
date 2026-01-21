@@ -213,7 +213,7 @@ header {
 .navigation .title {
   display: flex;
   flex-direction: column;
-  width: 277px;
+  width: 350px;
   align-items: flex-start;
   margin-bottom: 0;
 }
@@ -243,6 +243,7 @@ header {
   display: flex;
   align-items: center;
   gap: 32px;
+  flex-wrap: wrap;
 }
 
 .menu ul {
@@ -251,6 +252,17 @@ header {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    gap: 16px;
+  }
+  
+  .menu ul {
+    gap: 16px;
+  }
 }
 
 .menu li {
@@ -719,7 +731,12 @@ main .image-wrap {
   overflow: hidden;
   background: #000;
 }
-
+.hero-image {
+  max-width: 500px;
+  min-width: 300px;
+  width: 100%;
+  height: auto;
+}
 .hero-video-wrapper iframe {
   position: absolute;
   top: 0;
@@ -730,27 +747,7 @@ main .image-wrap {
 }
 
 /* Responsive card component */
-.project-card {
-      border: 2px solid #333;
-      border-radius: 0px;
-      overflow: hidden;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      min-width: 345px;
-      max-width: 345px;
-      width: 345px;
-      margin: 0;
-    }
-.card-container {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  align-items: stretch;
-  width: 100%;
-  padding: 1rem;
-}
+
 
 .card {
   width: 100%;
@@ -870,6 +867,9 @@ main .image-wrap {
   margin-top: 0.5rem;
   font-style: italic;
 }
+
+
+
 /* Card responsive behavior */
 @media (max-width: 768px) {
   .card-container {
@@ -895,7 +895,12 @@ main .image-wrap {
     border-radius: 4px;
   }
 }
-
+.card-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  margin: 0.25rem 0 0 0;
+}
 /* chip styles */
 /* Chip Row (container) */
 .chip-row {
@@ -1053,7 +1058,83 @@ main .image-wrap {
 }
 
 
+
+
+/* Horizontal list with centered dots separator */
+.feature-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.feature-list li {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  flex: 0 1 auto;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600
+}
+
+
+
+@media (max-width: 600px) {
+  .feature-list {
+    gap: .25rem;
+  }
+  
+  .feature-list li {
+    font-size: 0.85rem;
+  }
+  
+  .feature-list li:not(:last-child)::after {
+    right: -0.15rem;
+    font-size: 0.8rem;
+  }
+}
+.margin-top-medium {
+  margin-top: 1.5rem;
+}
+
 /* UTILITIES */
+.flex-row-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.flex-row-wrap > div {
+  flex: 1 1 calc(50% - 1rem);
+}
+
+.flex-row-wrap > section {
+  flex-basis: 100%;
+}
+.flex-row-wrap.hero {
+  padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .flex-row-wrap {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .flex-row-wrap > div,
+  .flex-row-wrap > section {
+    flex: 1 1 100%;
+  }
+}
+
 .padding-top-small {
   padding-top: 0.5rem;
 }
@@ -1062,4 +1143,7 @@ main .image-wrap {
 }
 .padding-top-large {
   padding-top: 2rem;
+}
+.white {
+  color: #ffffff;
 }

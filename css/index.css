@@ -73,14 +73,7 @@
   margin: 1rem;
 }
 
-.card-container {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  align-items: stretch;
-  width: 100%;
-  padding: 1rem;
-}
+
 
     a.no-underline,
     a.no-underline:visited,

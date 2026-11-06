@@ -1,5 +1,6 @@
 // Load header, content, and footer from separate files
 function loadSection(url, elementId, errorMsg, callback) {
+  if (!document.getElementById(elementId)) return;
   fetch(url)
     .then(r => {
       if (!r.ok) throw new Error(`Failed to load ${url}`);
@@ -13,26 +14,53 @@ function loadSection(url, elementId, errorMsg, callback) {
 }
 
 // Load reusable components
-loadSection('header.html', 'header', '<div class="error">Header failed to load.</div>');
-loadSection('footer.html', 'footer', '<div class="error">Footer failed to load.</div>');
-loadSection('primary-cta.html', 'cta', '<div class="error">CTA failed to load.</div>');
-loadSection('breadcrumb.html', 'breadcrumb', '<div class="error">Breadcrumb failed to load.</div>', function() {
-  var current = document.getElementById("breadcrumb-current");
-  if (current) {
-    var pageName = document.title;
-    var pageUrl = window.location.href;
-    current.querySelector('[itemprop="name"]').textContent = pageName;
-    current.querySelector('[itemprop="item"]').setAttribute('content', pageUrl);
-  }
-});
+loadSection('header.html?v=20261026-2', 'header', '<div class="error">Header failed to load.</div>');
+loadSection('footer.html?v=20261026-2', 'footer', '<div class="error">Footer failed to load.</div>');
+// Shared invitation layout; each page supplies its own copy and destination.
+const invitationSlots = document.querySelectorAll('[data-cta], section#cta');
+if (invitationSlots.length) {
+  fetch('primary-cta.html?v=20261017-2')
+    .then(response => {
+      if (!response.ok) throw new Error('CTA template failed to load');
+      return response.text();
+    })
+    .then(template => invitationSlots.forEach(slot => {
+      slot.classList.remove('cta');
+      slot.classList.add('content-invitation');
+      slot.innerHTML = template;
+      const heading = slot.querySelector('[data-cta-part="heading"]');
+      if (slot.dataset.ctaHeading) {
+        heading.textContent = slot.dataset.ctaHeading;
+        heading.hidden = false;
+      }
+      const context = slot.querySelector('[data-cta-part="context"]');
+      if (slot.dataset.ctaContext) context.textContent = slot.dataset.ctaContext;
+      if (slot.dataset.ctaFollowup) {
+        const followup = document.createElement('p');
+        followup.className = 'cta-context';
+        followup.textContent = slot.dataset.ctaFollowup;
+        context.after(followup);
+      }
+      const button = slot.querySelector('[data-cta-part="button"]');
+      if (slot.dataset.ctaLabel) button.textContent = slot.dataset.ctaLabel;
+      if (slot.dataset.ctaHref) button.setAttribute('href', slot.dataset.ctaHref);
+    }))
+    .catch(() => invitationSlots.forEach(slot => {
+      const link = document.createElement('a');
+      link.href = slot.dataset.ctaHref || 'contact.html';
+      link.className = 'cta-button';
+      link.textContent = slot.dataset.ctaLabel || 'Schedule a conversation';
+      slot.replaceChildren(link);
+    }));
+}
 
 // Case study pagination logic
 document.addEventListener("DOMContentLoaded", function() {
   const studies = [
+    { href: "artizent.html", label: "Artizent" },
+    { href: "afi.html", label: "American Family" },
+    { href: "cgi.html", label: "CGI" },
     { href: "smc.html", label: "Santa's Magic Call" },
-    { href: "afi.html", label: "American Family Insurance" },
-    { href: "cgi.html", label: "CGI Momentum" },
-    { href: "uspto.html", label: "U.S. Patent and Trademark Office" },
     //{ href: "vocus.html", label: "Vocus Marketing Cloud" },
     //{ href: "tableworks.html", label: "Tableworks" }
   ];
@@ -41,25 +69,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const currentIndex = studies.findIndex(s => s.href === currentFile);
 
   const pagination = document.querySelector('pagination');
-  if (pagination && currentIndex !== -1) {
-    let prev = currentIndex > 0 ? studies[currentIndex - 1] : null;
-    let next = currentIndex < studies.length - 1 ? studies[currentIndex + 1] : null;
-
+  if (pagination) {
     pagination.innerHTML = `
-      <nav class="pagination-nav" aria-label="Case Study Pagination">
+      <nav class="pagination-nav" aria-label="Case studies">
         <ul class="pagination-list">
-          <li>
-            ${prev
-              ? `<a href="${prev.href}" class="pagination-link">&lt; Previous</a>`
-              : `<span class="pagination-link disabled" aria-disabled="true" tabindex="-1">&lt; Previous</span>`
-            }
-          </li>
-          <li>
-            ${next
-              ? `<a href="${next.href}" class="pagination-link">Next Study &gt;</a>`
-              : `<span class="pagination-link disabled" aria-disabled="true" tabindex="-1">Next Study &gt;</span>`
-            }
-          </li>
+          ${studies.map((study, index) => `<li>${index === currentIndex
+            ? `<span class="pagination-current" aria-current="page" aria-disabled="true">${study.label}</span>`
+            : `<a href="${study.href}" class="pagination-link">${study.label}</a>`
+          }</li>`).join('')}
         </ul>
       </nav>
     `;
@@ -117,16 +134,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (inner) inner.addEventListener('click', function(e) { e.stopPropagation(); });
   }
 
-  function openMediaModal({ type, src, aspect: passedAspect }) {
+  function openMediaModal({ type, src, aspect: passedAspect, title, description, proof, descriptionLabel, proofLabel, alt }) {
     createMediaModal();
     const modal = document.getElementById('mediaModal');
     const body = modal.querySelector('.modal-body');
     body.innerHTML = '';
+    modal.classList.toggle('has-details', Boolean(title || description || proof));
 
     if (type === 'image') {
       const img = document.createElement('img');
       img.src = src;
-      img.alt = '';
+      img.alt = alt || '';
       img.style.maxWidth = '100%';
       img.style.height = 'auto';
       body.appendChild(img);
@@ -204,6 +222,48 @@ document.addEventListener('DOMContentLoaded', function() {
       body.appendChild(frame);
     }
 
+    if (title || description || proof) {
+      const details = document.createElement('div');
+      details.className = 'media-details';
+
+      if (title) {
+        const heading = document.createElement('h2');
+        heading.className = 'media-details-title';
+        heading.textContent = title;
+        details.appendChild(heading);
+      }
+
+      if (description && descriptionLabel) {
+        const label = document.createElement('h3');
+        label.className = 'media-details-title';
+        label.textContent = descriptionLabel;
+        details.appendChild(label);
+      }
+      if (description) {
+        const copy = document.createElement('p');
+        copy.className = 'media-details-description';
+        copy.textContent = description;
+        details.appendChild(copy);
+      }
+
+      if (proof) {
+        const proofBlock = document.createElement('div');
+        proofBlock.className = 'media-details-proof';
+
+        const proofTitle = document.createElement('h3');
+        proofTitle.textContent = proofLabel || 'What this proves';
+        proofBlock.appendChild(proofTitle);
+
+        const proofCopy = document.createElement('p');
+        proofCopy.textContent = proof;
+        proofBlock.appendChild(proofCopy);
+
+        details.appendChild(proofBlock);
+      }
+
+      body.appendChild(details);
+    }
+
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -232,6 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
       iframe.src = '';
     }
     body.innerHTML = '';
+    modal.classList.remove('has-details');
 
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
@@ -246,6 +307,13 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const type = (this.dataset.type || 'image').toLowerCase();
         const src = this.dataset.src || this.dataset.video || this.href || this.getAttribute('href');
+        const title = this.dataset.title || '';
+        const description = this.dataset.description || '';
+        const proof = this.dataset.proof || '';
+        const descriptionLabel = this.dataset.descriptionLabel || '';
+        const proofLabel = this.dataset.proofLabel || '';
+        const triggerImage = this.querySelector('img');
+        const alt = triggerImage ? triggerImage.alt : '';
         // If the trigger supplies an explicit aspect (e.g. data-aspect="9:16" or "16:9"), parse it
         let aspect = null;
         if (this.dataset.aspect) {
@@ -265,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalEl = document.getElementById('mediaModal');
         if (modalEl) modalEl._currentAspect = aspect || (16/9);
         if (!src) return;
-        openMediaModal({ type, src, aspect });
+        openMediaModal({ type, src, aspect, title, description, proof, descriptionLabel, proofLabel, alt });
       });
     });
 

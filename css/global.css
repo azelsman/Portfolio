@@ -100,6 +100,10 @@ body {
   padding-top:0;
 }
 
+.hero + .content-container {
+  padding-top: 2rem;
+}
+
 /* Pin footer to bottom */
 footer {
   margin-top: auto;
@@ -201,9 +205,10 @@ header {
 /* Navigation inner container */
 .navigation .container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   padding: 20px;
   width: 100%;
   background-color: #31214f;
@@ -213,7 +218,8 @@ header {
 .navigation .title {
   display: flex;
   flex-direction: column;
-  width: 350px;
+  width: auto;
+  flex: 0 0 auto;
   align-items: flex-start;
   margin-bottom: 0;
 }
@@ -242,35 +248,45 @@ header {
 .menu {
   display: flex;
   align-items: center;
-  gap: 32px;
-  flex-wrap: wrap;
+  margin-left: auto;
 }
 
-.menu ul {
+.menu > ul {
   display: flex;
-  gap: 32px;
+  align-items: center;
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
   list-style: none;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
-@media (max-width: 768px) {
-  .menu {
-    gap: 16px;
-  }
-  
-  .menu ul {
-    gap: 16px;
-  }
+.menu__home {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.menu__home svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.menu > ul > .menu__studies {
+  display: list-item;
+}
+
+.menu__disclosure summary {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .menu li {
   margin: 0;
   padding: 0;
-}
-.menu li:hover {
-    transform: scale(1.1);
 }
 
 .menu a,
@@ -278,8 +294,7 @@ header {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  font-size: 18px;
-  transition: transform 0.2s;
+  font-size: 16px;
 }
 
 .menu a:focus,
@@ -287,7 +302,95 @@ header {
 .text-wrapper-2:focus,
 .text-wrapper-2:hover {
   outline: none;
-  transform: scale(1.1);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* Shared case-study disclosure on desktop and mobile. */
+.menu__disclosure {
+  position: relative;
+}
+
+.menu__disclosure summary {
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.menu__disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu__disclosure summary::after {
+  content: "";
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.5rem;
+  vertical-align: 0.15em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.menu__disclosure[open] summary::after {
+  transform: rotate(225deg);
+}
+
+.menu__submenu {
+  position: absolute;
+  top: calc(100% + 0.65rem);
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(22rem, calc(100vw - 2rem));
+  margin: 0;
+  padding: 0.4rem;
+  gap: 0;
+  list-style: none;
+  border: 2px solid #000;
+  background: #fff9eaf0;
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.24);
+}
+
+.menu__submenu a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  color: #111018;
+  white-space: normal;
+}
+
+.menu__submenu a:hover,
+.menu__submenu a:focus-visible {
+  background: #ffd089;
+  color: #111018;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .navigation .container {
+    flex-wrap: wrap;
+  }
+
+  .navigation .title,
+  .menu {
+    width: 100%;
+  }
+
+  .menu {
+    margin-left: 0;
+  }
+
+  .menu > ul {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 /* Case StudyPagination styles */
@@ -299,30 +402,31 @@ header {
 }
 .pagination-list {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 0.75rem 1.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 .pagination-link {
-  padding: 0.5rem 1.5rem;
-  border-radius: 2rem;
-  background: #f5f5f5;
-  color: #333;
+  display: inline-block;
+  padding: 0.5rem 0;
+  color: #0048fe;
   text-decoration: none;
   font-weight: 600;
   transition: background 0.2s;
 }
 .pagination-link:hover {
-  background: #1D152B;
-  color: #fff;
+  color: #ff6600;
+  text-decoration: none;
 }
 .pagination-current {
+  display: inline-block;
   font-weight: bold;
-  color: #1D152B;
-  padding: 0.5rem 1.5rem;
+  color: #444;
+  padding: 0.5rem 0;
 }
 .pagination-link.disabled {
   background: #eee;
@@ -347,7 +451,7 @@ footer .links {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap:1.25rem;
   color: #fff;
   padding-bottom: 1rem;
@@ -357,11 +461,12 @@ footer a {
   color: #fff;
   text-decoration: none;
   margin: 0;
-  transition: transform 0.2s;
 }
 
-footer a:hover{
-    transform: scale(1.1);
+footer a:hover,
+footer a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 .copyright {
@@ -651,18 +756,24 @@ footer a:hover{
       }
     }
 
+/* Shared page-title typography */
+h1 {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 600;
+}
+
 /* Reduce gaps between content chunks, especially on mobile */
 h1 {
   margin-top: 0rem;
   margin-bottom: 0.5rem;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1.875rem;
 }
 
 h1.with-subtitle {
   margin-top: 0;
   margin-bottom: 0;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1.875rem;
 }
 
@@ -1153,4 +1264,128 @@ main .image-wrap {
 }
 .white {
   color: #ffffff;
+}
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&display=swap');
+
+/* Invitations remain part of the page content, before footer navigation. */
+.content-invitation { margin: 24px 0 12px; padding: 8px 0 20px; }
+.content-invitation .cta-container,
+.cta .cta-container { background: transparent; color: #111; align-items: stretch; text-align: left; }
+.content-invitation .cta-container { padding: 0; }
+.content-invitation h2 { margin-bottom: 12px; }
+.content-invitation p { margin-bottom: 20px; }
+.content-invitation .cta-context,
+.cta .cta-context { color: #111; }
+.content-invitation .cta-button,
+.cta .cta-button { display: flex; width: fit-content; margin-inline: auto; color: #111; max-width: 100%; font-size: 20px; padding: 12px 28px; text-align: center; }
+#footer .copyright { margin-top: 28px; color: #b9b3c5; }
+
+/* A concrete decision, set apart from the approach summary. */
+.decision-callout {
+  border-left: 3px solid #58436f;
+  margin: 32px 0;
+  padding: 4px 0 4px clamp(18px, 3vw, 30px);
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+.decision-callout .decision-callout-lead {
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 18px;
+}
+.decision-callout p:last-child { margin-bottom: 0; }
+
+/* Align content-list text with headings on mobile; retain outside markers. */
+@media (max-width: 760px) {
+  .content-container ul:not([class]),
+  .content-container .po-moves,
+  #content-container .po-moves {
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    text-align: left;
+  }
+  .content-container ul:not([class]) > li,
+  .content-container .po-moves > li,
+  #content-container .po-moves > li {
+    text-align: left;
+  }
+}
+
+/* Compact primary actions across opening and closing invitations. */
+.cta-button,
+.content-invitation .cta-button,
+.cta .cta-button {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 8px 24px;
+}
+.cta-button .text-wrapper { font-size: inherit; }
+
+/* Define the lime primary action with a darker green edge. */
+.cta-button { border: 3px solid #aaea00; }
+
+/* Shared closing invitation: left-aligned copy and centered action. */
+.content-invitation .cta-context { text-align: left; }
+.content-invitation .cta-button {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  margin-inline: auto;
+}
+
+/* Shared lightbox-card media boundary; the link owns the separator. */
+.card > .media-trigger {
+  display: block;
+  border-bottom: 3px solid #111018;
+}
+.card > .media-trigger > img {
+  display: block;
+  border-bottom: 0;
+}
+
+/* Reusable stacked insight articles. Native details provides keyboard interaction. */
+.insight-accordion { margin: 24px 0; border: 2px solid #31214f; }
+.insight-accordion > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  background: #fff9ea;
+  cursor: pointer;
+  list-style: none;
+}
+.insight-accordion > summary::-webkit-details-marker { display: none; }
+.insight-accordion > summary h2 { margin: 0; }
+.insight-accordion > summary::after { content: '+'; font-size: 1.75rem; line-height: 1; color: #5a2ca0; }
+.insight-accordion[open] > summary::after { content: '−'; }
+.insight-accordion > summary:focus-visible { outline: 3px solid #5a2ca0; outline-offset: 3px; }
+.insight-accordion__body { padding: 24px 20px 8px; border-top: 2px solid #31214f; }
+.insight-accordion__body section + section { margin-top: 28px; }
+@media (max-width: 600px) {
+  .insight-accordion > summary { padding: 16px; }
+  .insight-accordion__body { padding: 20px 16px 4px; }
+}
+
+/* Visible provenance for Insights articles. */
+.insight-accordion__body { background: #fff; }
+.insight-accordion__body > h3 { margin-top: 2rem; }
+.insight-byline { color: #555; font-size: .9rem; margin-top: 0; }
+.insight-citation { font-size: .85em; font-weight: 600; white-space: nowrap; }
+.insight-sources { margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #31214f; }
+.insight-sources > p { color: #555; font-size: .9rem; }
+.insight-sources__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.insight-source { min-width: 0; padding: 16px; border: 1px solid #bdb6c6; border-radius: 4px; background: #fff; overflow-wrap: anywhere; }
+.insight-source__meta { display: flex; flex-direction: column; gap: 4px; color: #555; font-size: .78rem; line-height: 1.4; margin: 0 0 12px; }
+.insight-source h4 { margin: 0 0 10px; font-size: 1rem; line-height: 1.4; }
+.insight-source > p:not(.insight-source__meta) { font-size: .9rem; line-height: 1.5; margin: 0 0 12px; }
+.insight-source__return { font-size: .8rem; }
+.insight-citation, .insight-source { scroll-margin-top: 24px; }
+.insight-accordion__body a:focus-visible { outline: 3px solid #5a2ca0; outline-offset: 3px; }
+.insight-source:target { border-color: #5a2ca0; outline: 2px solid #5a2ca0; outline-offset: 2px; }
+@media (max-width: 700px) { .insight-sources__grid { grid-template-columns: minmax(0, 1fr); } }
+
+@media (max-width: 600px) {
+  .menu__submenu { left: -3rem; right: auto; }
 }

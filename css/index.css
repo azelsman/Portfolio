@@ -13,6 +13,29 @@
       padding: 2rem;
     }
 
+    #content-container {
+      padding: 0 2rem 2rem;
+    }
+
+    .hero-title {
+      margin: 0 0 1rem;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: clamp(2rem, 3.3vw, 3rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.012em;
+    }
+
+    .hero-title__line {
+      display: block;
+    }
+
+    .hero-title__accent {
+      color: #5a2ca0;
+      font-style: italic;
+      font-weight: 700;
+    }
+
     .hero-note {
         font-size: 0.9rem;
         font-weight: 700;
@@ -41,80 +64,202 @@
       padding: 1rem 0;
     }
 
-    /* Use flexbox for a fixed gutter and centered wrapping cards */
-    .projects-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 20px;/* Always 20px gap between cards horizontally and vertically */
-      width: 100%;
-    }
-
-    /* Horizontal list with centered dots separator */
-    /* Lock card and image height to width (1:1 aspect ratio) */
-
-    .project-card {
-      border: 2px solid #333;
-      border-radius: 0px;
-      overflow: hidden;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      min-width: 300px;
-      max-width: 30%;
-      width: 100%;
-      margin: 0;
-    }
-.project-card-heading {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #333;
-  margin: 1rem;
-}
-
-
-
-    a.no-underline,
-    a.no-underline:visited,
-    a.no-underline:hover,
-    a.no-underline:active,
-    a.no-underline:focus {
-      text-decoration: none !important;
-    }
-
-    .project-header {
-      background-color: #5a2ca0;
-      color: white;
-      padding: 20px;
+    /* Comic-page project grid: three standard panels and one full-width feature. */
+    .projects-caption {
+      font-style: italic;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      display: table;
+      max-width: calc(100% - 1.5rem);
+      margin: 0 0 -4px 0;
+      top: 5px;
+      padding: 0.65rem 1rem;
+      border: 3px solid #111018;
+      background: #ffd089;
+      color: #111018;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
       font-weight: 600;
-      text-align: left;
-      width: 100%;
+      line-height: 1.15;
       box-sizing: border-box;
     }
 
-    .project-image {
-      width: 100%;
-      height: auto;
-      background: #fff;
-      display: block;
-      border: none;
-      margin: 0;
+    .projects-caption span {
+      color: #5a2ca0;
+      font-weight: 700;
+      font-style: italic;
     }
 
-    .project-footer {
-      background: #EFEDF7;           /* Background color */
-      padding: 1.25rem 1rem;
-      text-align: left;
-      font-size: .85rem;
-      font-weight: 400;              /* Semibold */
-      color: #5a2ca0;
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .project-story-card {
+      --panel-ink: #111018;
+      --panel-paper: #fff9ea;
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      align-items: end;
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
+      min-height: clamp(340px, 34vw, 460px);
+      border: 4px solid var(--panel-ink);
+      background: var(--panel-paper);
+      color: var(--panel-ink);
+      box-sizing: border-box;
+      text-decoration: none;
+      transition: transform 180ms ease;
+    }
+
+    .project-story-card:hover {
+      transform: translate(-2px, -3px);
+    }
+
+    .project-story-card:visited,
+    .project-story-card:hover,
+    .project-story-card:active {
+      color: var(--panel-ink);
+      text-decoration: none;
+    }
+
+    .project-story-card:focus-visible {
+      outline: 4px solid #5a2ca0;
+      outline-offset: 5px;
+    }
+
+    .project-story-card__art {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      background-color: var(--panel-paper);
+      background-image:
+        radial-gradient(circle at 20% 22%, rgba(255, 255, 255, 0.25) 0 2px, transparent 3px),
+        repeating-linear-gradient(118deg, transparent 0 18px, rgba(17, 16, 24, 0.08) 19px 21px);
+      background-size: 15px 15px, auto;
+    }
+
+    .project-story-card__art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, transparent 35%, rgba(17, 16, 24, 0.35));
+    }
+
+    .project-story-card__copy {
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 0.3rem;
-      flex-wrap: wrap;
-      border-top: 1px solid #e0dbe9; /* Optional: subtle top border */
+      flex-direction: column;
+      gap: 0.4rem;
+      width: 100%;
+      margin: 0;
+      padding: clamp(0.85rem, 1.8vw, 1.2rem);
+      border: 0;
+      border-top: 3px solid var(--panel-ink);
+      background: rgba(255, 249, 234, 0.94);
+      box-sizing: border-box;
+      text-align: left;
+      transform: none;
+    }
+
+    .project-story-card__kicker {
+      font-size: clamp(0.68rem, 0.8vw, 0.78rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .project-story-card__title {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      text-transform: none;
+    }
+
+    .project-story-card__message {
+      font-size: clamp(0.84rem, 1vw, 0.98rem);
+      line-height: 1.35;
+    }
+
+    .project-story-card--artizent {
+      --panel-paper: #fee94d;
+    }
+
+    .project-story-card--artizent .project-story-card__art {
+      object-position: left top;
+      background-color: #24113d;
+      background-image:
+        radial-gradient(circle at 20% 25%, #ffea39 0 10%, transparent 11%),
+        repeating-conic-gradient(from 210deg at 20% 25%, #ed168c 0 7deg, #24113d 8deg 17deg, #16dce2 18deg 25deg);
+    }
+
+    .project-story-card--afi {
+      --panel-paper: #fff4d5;
+    }
+
+    .project-story-card--afi .project-story-card__art {
+      object-position: left top;
+      background-color: #fff4d5;
+      background-image:
+        radial-gradient(circle at 70% 28%, #18d9e0 0 11%, transparent 12%),
+        repeating-radial-gradient(circle at 45% 55%, #ed168c 0 5px, #8c0e5d 6px 10px, transparent 11px 22px);
+    }
+
+    .project-story-card--afi .project-story-card__copy {
+      transform: none;
+    }
+
+    .project-story-card--cgi {
+      --panel-paper: #f3ead4;
+    }
+
+    .project-story-card--cgi .project-story-card__art {
+      object-position: left top;
+      background-color: #17263d;
+      background-image:
+        linear-gradient(135deg, transparent 0 40%, rgba(165, 40, 65, 0.88) 41% 55%, transparent 56%),
+        repeating-linear-gradient(90deg, rgba(210, 229, 226, 0.18) 0 2px, transparent 2px 30px),
+        repeating-linear-gradient(0deg, rgba(210, 229, 226, 0.12) 0 2px, transparent 2px 30px);
+    }
+
+    .project-story-card--cgi .project-story-card__copy {
+      align-self: end;
+      transform: none;
+    }
+
+    .project-story-card--smc {
+      grid-column: 1 / -1;
+      min-height: 500px;
+      --panel-paper: #fff0cd;
+    }
+
+    .project-story-card--smc .project-story-card__art {
+      object-position: left top;
+      background-color: #14382d;
+      background-image:
+        radial-gradient(circle at 76% 45%, rgba(255, 211, 92, 0.9) 0 8%, transparent 9%),
+        radial-gradient(circle at 78% 46%, rgba(255, 211, 92, 0.25) 0 22%, transparent 36%),
+        repeating-linear-gradient(125deg, transparent 0 28px, rgba(180, 25, 49, 0.34) 29px 34px);
+    }
+
+    .project-story-card--smc .project-story-card__copy {
+      width: 100%;
+      align-self: end;
+      margin: 0;
+      transform: none;
     }
 
     .recommendation {
@@ -138,11 +283,19 @@
 
     @media (max-width: 900px) {
       .projects-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         padding: 0;
+      }
+
+      .project-story-card--smc {
+        grid-column: auto;
+        min-height: clamp(340px, 34vw, 460px);
+      }
+
+      .project-story-card--smc .project-story-card__copy {
+        width: 100%;
+        align-self: end;
+        margin: 0;
       }
     }
 
@@ -155,6 +308,14 @@
       #hero {
         padding: 1rem;
       }
+
+      #content-container {
+        padding: 0 1rem 1rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+      }
       
       .hero-video-wrapper {
         width: 100%;
@@ -166,30 +327,34 @@
         max-width: 100%;
       }
       .projects-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
+        grid-template-columns: minmax(0, 1fr);
         padding: 0;
       }
-      .project-card-heading {
-        padding: 0;
-        margin: 0;      
+
+      .project-story-card {
+        grid-column: auto;
+        min-height: 420px;
       }
-      .project-card {
-        min-width: 100%;
-        flex: 1 1 100%;
-        margin: 0;
+
+      .project-story-card--smc {
+        grid-column: auto;
+        min-height: 420px;
       }
-      .project-header {
-        padding: 16px;
-        font-size: 1rem;
-      }
-      .project-image {
-        min-width: 300px;
+
+      .project-story-card--smc .project-story-card__copy {
         width: 100%;
+        align-self: end;
+        margin: 0;
       }
       .recommendation {
         padding: 1rem;
       }
     }
+
+/* Separate the business narrative from its case-study evidence. */
+#ai-investment-title { scroll-margin-top: 1rem; }
+section[aria-labelledby="ai-investment-title"] { margin-bottom: 2.5rem; }
+
+/* The homepage invitation sits outside the padded content wrapper. */
+#cta.content-invitation { padding-inline: 2rem; }
+
